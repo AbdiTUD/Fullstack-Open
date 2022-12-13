@@ -1,0 +1,17 @@
+selain->palvelin: POST https://studies.cs.helsinki.fi/exampleapp/spa
+selain->palvelin: statuskoodi 201
+
+note over selain:
+selain alkaa suorittaa js-koodia
+jonka se sai palvelimelta
+kun viimeksi latasi sivuston
+end note 
+
+note over selain:
+
+
+note over selain:
+selain suorittaa tapahtumankäsittelijän
+joka renderöi muistiinpanot näytölle
+end note
+
