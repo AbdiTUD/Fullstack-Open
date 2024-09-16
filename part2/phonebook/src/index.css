@@ -1,0 +1,35 @@
+
+  
+  .successdeletion {
+    background-color: #dff0d8;
+    color: red;
+    padding: 10px;
+
+    border-style: solid;
+
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .success {
+    background-color: #dff0d8;
+    color: green;
+    padding: 10px;
+
+    border-style: solid;
+
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .error {
+    background-color: #f2dede;
+    color: #a94442;
+    padding: 10px;
+
+    border-style: solid;
+
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
