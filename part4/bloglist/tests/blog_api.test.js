@@ -142,3 +142,46 @@ test('a blog can be updated', async () => {
 after(async () => {
   await mongoose.connection.close()
 })
+
+test('adding a blog fails with proper status code if token is not provided', async () => {
+  const newBlog = {
+    title: "Test without token",
+    author: "Tester",
+    url: "test.com",
+    likes: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+})
+
+test('adding a blog succeeds with valid token', async () => {
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'testuser', password: 'secret' })
+
+  const token = loginResponse.body.token
+
+  const newBlog = {
+    title: "Test with token",
+    author: "Tester",
+    url: "test.com",
+    likes: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+})
