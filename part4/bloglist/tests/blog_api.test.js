@@ -139,10 +139,6 @@ test('a blog can be updated', async () => {
   assert.strictEqual(updatedBlogInDb.likes, blogToUpdate.likes + 1)
 })
 
-after(async () => {
-  await mongoose.connection.close()
-})
-
 test('adding a blog fails with proper status code if token is not provided', async () => {
   const newBlog = {
     title: "Test without token",
@@ -184,4 +180,8 @@ test('adding a blog succeeds with valid token', async () => {
 
   const blogsAtEnd = await helper.blogsInDb()
   assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+})
+
+after(async () => {
+  await mongoose.connection.close()
 })

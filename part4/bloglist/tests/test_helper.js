@@ -1,3 +1,4 @@
+// tests/test_helper.js
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -5,13 +6,13 @@ const initialBlogs = [
   {
     title: "React patterns",
     author: "Michael Chan",
-    url: "reactpatterns.com",
+    url: "https://reactpatterns.com/",
     likes: 7
   },
   {
-    title: "Go Tutorial",
-    author: "Google",
-    url: "go.dev",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
     likes: 5
   }
 ]
