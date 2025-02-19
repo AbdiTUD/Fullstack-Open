@@ -30,9 +30,12 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
+      console.log('Login attempt with:', { username, password })
       const user = await loginService.login({
-        username, password,
+        username,
+        password,
       })
+      console.log('Login successful:', user)
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
@@ -41,6 +44,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
+      console.error('Login failed:', exception)
       setNotification('wrong username or password')
       setTimeout(() => {
         setNotification(null)
@@ -55,8 +59,19 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog).sort((a, b) => b.likes - a.likes))
+      const returnedBlog = await blogService.create({
+        ...blogObject,
+        user: user.id
+      })
+      const blogWithUser = {
+        ...returnedBlog,
+        user: {
+          username: user.username,
+          name: user.name,
+          id: user.id
+        }
+      }
+      setBlogs(blogs.concat(blogWithUser).sort((a, b) => b.likes - a.likes))
       setNotification(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
       setTimeout(() => {
         setNotification(null)
@@ -72,8 +87,13 @@ const App = () => {
   const updateBlog = async (id, blogObject) => {
     try {
       const returnedBlog = await blogService.update(id, blogObject)
-      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog)
-        .sort((a, b) => b.likes - a.likes))
+      setBlogs(blogs.map(blog => {
+        if (blog.id !== id) return blog
+        return {
+          ...returnedBlog,
+          user: blog.user
+        }
+      }).sort((a, b) => b.likes - a.likes))
     } catch (exception) {
       setNotification('Error updating blog')
       setTimeout(() => {

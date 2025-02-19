@@ -9,6 +9,7 @@ const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const testingRouter = require('./controllers/testing')
 
 mongoose.set('strictQuery', false)
 
@@ -34,4 +35,7 @@ app.use('/api/login', loginRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
+if (process.env.NODE_ENV === 'test') {
+  app.use('/api/testing', testingRouter)
+}
 module.exports = app
