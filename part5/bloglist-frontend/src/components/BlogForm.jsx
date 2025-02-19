@@ -6,13 +6,14 @@ const BlogForm = ({ createBlog }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleSubmit = (event) => {
+  const addBlog = (event) => {
     event.preventDefault()
     createBlog({
       title,
       author,
       url
     })
+
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -21,7 +22,7 @@ const BlogForm = ({ createBlog }) => {
   return (
     <div>
       <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={addBlog}>
         <div>
           title:
           <input
